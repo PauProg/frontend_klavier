@@ -429,7 +429,7 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 ## 8. Documentación
 
 - **README del proyecto:** stack, instalación, scripts, rutas, variables y estructura.
-- **ADR:** `docs/adrs/NNN-titulo.md` con Contexto, Decisión, Alternativas, Consecuencias y Referencias, siguiendo `../docs/templates/adr.md`.
+- **ADR:** `docs/adrs/NNNN-titulo.md` (4 dígitos y slug en inglés) con Contexto, Decisión, Alternativas, Consecuencias y Referencias, siguiendo `../docs/templates/adr.md`.
 - **Plantillas y revisión:** copia las plantillas de `../docs/templates/` y ejecuta `/review-docs` antes de commitear documentación. El revisor corrige estructura y reporta huecos; no inventa contenido.
 - **Diseño:** si la tarea define una dirección visual, guárdala en `docs/design.md` o en el `SPEC.md`; no la dejes solo en el código.
 - **Diagramas de flujo:** `docs/diagrams/` si aportan claridad.

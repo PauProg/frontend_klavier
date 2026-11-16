@@ -269,7 +269,7 @@ La sesión no toca el backend. La API existente se usará en modo lectura para m
 
 - [x] Actualizar `README.md` con stack, scripts, rutas y variables.
 - [x] Crear `.env.example`.
-- [x] Crear `docs/adrs/001-frontend-foundation.md`.
+- [x] Crear `docs/adrs/0001-frontend-foundation.md`.
 - [x] Actualizar `AGENTS.md` si la estructura final difiere de la prevista.
 - [x] Crear `works/README.md` con la sesión.
 

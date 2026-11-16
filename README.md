@@ -104,7 +104,7 @@ La Home consume `GET /api/products`. La respuesta esperada es:
 
 La base del frontend está terminada y la Home funciona con la API real. **Login y Register son maquetas**: validan los campos en cliente, pero no autentican ni llaman a la API. La autenticación, las rutas protegidas y la guía de estilos definitiva quedan para las siguientes sesiones.
 
-Consulta [`works/0001-react-vite-router-setup`](./works/0001-react-vite-router-setup/) y el [ADR 001](./docs/adrs/001-frontend-foundation.md) para el detalle de las decisiones.
+Consulta [`works/0001-react-vite-router-setup`](./works/0001-react-vite-router-setup/) y el [ADR 001](./docs/adrs/0001-frontend-foundation.md) para el detalle de las decisiones.
 
 ## Autor
 

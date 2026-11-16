@@ -37,7 +37,7 @@ La URL de la API se centraliza en `VITE_API_URL`, con `http://localhost:3000` co
 | Añadir un 404 explícito. | Demuestra que el routing funciona y ofrece una salida clara al usuario. |
 | No implementar tests automatizados. | El enunciado no los pide; la verificación se ha hecho en navegador y queda documentada. |
 
-El detalle completo está en el [ADR 001](../../docs/adrs/001-frontend-foundation.md).
+El detalle completo está en el [ADR 001](../../docs/adrs/0001-frontend-foundation.md).
 
 ---
 
@@ -93,6 +93,6 @@ Nada de esto se ha tocado en el backend: el contrato de la API se mantiene igual
 
 - [SPEC.md](./SPEC.md) — alcance, requisitos, decisiones y tabla evaluativa.
 - [README.md](./README.md) — guía práctica, rutas, API y puesta en marcha.
-- [ADR 001](../../docs/adrs/001-frontend-foundation.md) — base del frontend.
+- [ADR 001](../../docs/adrs/0001-frontend-foundation.md) — base del frontend.
 - [PDF del entregable](./MedinaPau_MOptSesion9.pdf) — informe con placeholders de capturas.
 - [Repositorio](https://github.com/PauProg/frontend_klavier) — rama `feature/react-vite-router-setup`.
