@@ -1,11 +1,12 @@
-# ADR 001 — Base del frontend: Vite, React Router y Tailwind CSS
+# ADR-001: Base del frontend: Vite, React Router y Tailwind CSS
 
 | Campo | Valor |
 |---|---|
-| **ID** | `001` |
+| **ID** | `ADR-001` |
 | **Fecha** | 2026-11-16 |
 | **Estado** | Aceptada |
-| **Sesión** | Sesión 9 (14) — [`works/0001-react-vite-router-setup`](../works/0001-react-vite-router-setup/) |
+| **Ámbito** | `frontend` |
+| **Sesión** | Sesión 9 (14) — [`works/0001-react-vite-router-setup`](../../works/0001-react-vite-router-setup/) |
 
 ## Contexto
 
@@ -52,6 +53,18 @@ No se creó `tailwind.config.js`. En esta sesión los estilos son **básicos y u
 
 `credentials: 'include'` se deja preparado para las futuras llamadas de autenticación con cookie `httpOnly`. No se envía ningún token en esta sesión.
 
+## Alternativas consideradas
+
+| Alternativa | Motivo del descarte |
+|---|---|
+| Ejecutar `npm create vite` directamente en `frontend/` | El directorio no estaba vacío; se arriesgaba a sobrescribir documentación. |
+| CSS propio con variables | El usuario pidió Tailwind ahora para no rehacer la base en sesiones posteriores. |
+| Bootstrap | No se pidió y añade un look genérico difícil de adaptar a una identidad propia. |
+| Rutas planas sin layout | Duplicaría cabecera y pie en cada página. |
+| Datos mock en la Home | La API ya existe; usar datos reales demuestra la integración y permite detectar problemas de CORS. |
+| Implementar login real y rutas protegidas | Amplía el alcance de una sesión centrada en Vite, routing y UI. Se pospone a la sesión de autenticación. |
+| TypeScript | El enunciado no lo pide y añade fricción a una primera sesión. |
+
 ## Consecuencias
 
 ### Positivas
@@ -69,22 +82,10 @@ No se creó `tailwind.config.js`. En esta sesión los estilos son **básicos y u
 - Login y Register no autentican: son maquetas validadas en cliente.
 - No hay tests automatizados; la verificación de esta sesión es manual y está documentada en el `RESUMEN.md`.
 
-## Alternativas descartadas
-
-| Alternativa | Motivo del descarte |
-|---|---|
-| Ejecutar `npm create vite` directamente en `frontend/` | El directorio no estaba vacío; se arriesgaba a sobrescribir documentación. |
-| CSS propio con variables | El usuario pidió Tailwind ahora para no rehacer la base en sesiones posteriores. |
-| Bootstrap | No se pidió y añade un look genérico difícil de adaptar a una identidad propia. |
-| Rutas planas sin layout | Duplicaría cabecera y pie en cada página. |
-| Datos mock en la Home | La API ya existe; usar datos reales demuestra la integración y permite detectar problemas de CORS. |
-| Implementar login real y rutas protegidas | Amplía el alcance de una sesión centrada en Vite, routing y UI. Se pospone a la sesión de autenticación. |
-| TypeScript | El enunciado no lo pide y añade fricción a una primera sesión. |
-
 ## Referencias
 
-- [`works/0001-react-vite-router-setup/SPEC.md`](../works/0001-react-vite-router-setup/SPEC.md)
-- [`works/0001-react-vite-router-setup/README.md`](../works/0001-react-vite-router-setup/README.md)
+- [`works/0001-react-vite-router-setup/SPEC.md`](../../works/0001-react-vite-router-setup/SPEC.md)
+- [`works/0001-react-vite-router-setup/README.md`](../../works/0001-react-vite-router-setup/README.md)
 - [Vite](https://vite.dev/)
 - [Tailwind CSS + Vite](https://tailwindcss.com/docs/installation/using-vite)
 - [React Router](https://reactrouter.com/)

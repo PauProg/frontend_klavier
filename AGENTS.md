@@ -264,14 +264,14 @@ Al terminar la sesión, **a la vez que creas `RESUMEN.md`**, crea el PDF del ent
 
 - **Nombre:** `MedinaPau_MOptSesion<N>.pdf`, donde `<N>` es el número de sesión del enunciado. Si el enunciado impone otro nombre, usa el del enunciado y déjalo anotado en el `SPEC.md`.
 - **Formato:** replica el aspecto y la estructura del PDF de ejemplo: portada, secciones y pie de página con autor, sesión y número de página.
-- **Contenido mínimo:**
+- **Plantilla:** sigue `../docs/templates/pdf.md`.
+- **Contenido mínimo:** máximo 7 capturas en todo el PDF.
   1. Portada: “MOpt Frameworks”, “Sesión N”, título de la sesión, autor, email, fecha y URL del repositorio.
-  2. “Qué he hecho”: 3–6 párrafos en lenguaje claro.
-  3. “Archivos principales”: lista de archivos tocados con una frase cada uno.
-  4. “Código”: capturas de los componentes, hooks o servicios clave, en el orden en que se explican.
-  5. “Pruebas en el navegador”: capturas de las pantallas y flujos, en el orden en que se ejecutan.
-  6. “Comprobaciones en la API/DevTools”: solo si la tarea toca integración, red, cookies o errores.
-  7. “Repositorio”: URL y rama.
+  2. “Qué he hecho”: 2–3 párrafos, unas 250–300 palabras y una página como máximo. Sin subtítulos, listas ni inventario de archivos.
+  3. “Código principal”: 3–4 capturas de los componentes, hooks o servicios que sostienen la decisión de la sesión, en el orden en que se explican.
+  4. “Pruebas en el navegador”: 2–3 capturas: resultado principal y, como máximo, móvil y un estado límite. Si la tarea toca integración, red, cookies o errores, una puede ser de DevTools.
+  5. “Repositorio”: URL, rama y commits de la sesión.
+- **Sin sección “Archivos principales”**: esa lista ya está en `README.md` y `RESUMEN.md`.
 - **Capturas:** no pegues capturas reales ni imágenes de ejemplo. En cada sitio donde iría una captura, inserta un **placeholder visible** con esta información:
   - Número y título de la captura.
   - Qué hay que capturar y qué debe verse.
@@ -334,6 +334,7 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 
 ### 6.5 Reglas de los placeholders
 
+- **Máximo 7 capturas en total**, código y pruebas incluidas. Si sobran, se recortan las de código, nunca la prueba principal.
 - Un placeholder por captura, numerados en el mismo orden en que se leen.
 - No dejes placeholders genéricos: siempre archivo y líneas, o ruta/viewport/estado, o petición/endpoint.
 - No incluyas tokens, contraseñas ni datos personales reales en los textos de ejemplo.
@@ -428,7 +429,8 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 ## 8. Documentación
 
 - **README del proyecto:** stack, instalación, scripts, rutas, variables y estructura.
-- **ADR:** `docs/adrs/NNN-titulo.md` con Contexto, Decisión, Consecuencias y Alternativas.
+- **ADR:** `docs/adrs/NNN-titulo.md` con Contexto, Decisión, Alternativas, Consecuencias y Referencias, siguiendo `../docs/templates/adr.md`.
+- **Plantillas y revisión:** copia las plantillas de `../docs/templates/` y ejecuta `/review-docs` antes de commitear documentación. El revisor corrige estructura y reporta huecos; no inventa contenido.
 - **Diseño:** si la tarea define una dirección visual, guárdala en `docs/design.md` o en el `SPEC.md`; no la dejes solo en el código.
 - **Diagramas de flujo:** `docs/diagrams/` si aportan claridad.
 - **`.env.example`:** añade las claves nuevas sin valores reales. Como mínimo, `VITE_API_URL=http://localhost:3000`.
@@ -545,6 +547,8 @@ Mientras no exista esa primera unidad, usa como referencia de formato y nivel de
 - [ ] `SPEC.md` rellenado.
 - [ ] `RESUMEN.md` creado.
 - [ ] PDF creado con placeholders (archivo + líneas o pantalla + estado) y enlazado.
+- [ ] PDF con 7 capturas como máximo y sin «Archivos principales».
 - [ ] README/ADR/documentación actualizados.
+- [ ] `/review-docs` ejecutado y huecos de contenido reportados.
 - [ ] `works/README.md` actualizado.
 - [ ] Commits realizados.
