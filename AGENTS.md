@@ -29,9 +29,9 @@ Klavier es la aplicación web de un e-commerce de pianos. El frontend consume la
 ### Stack previsto
 
 - **UI:** React con componentes funcionales y hooks.
-- **Build:** se definirá en la primera sesión. Si el enunciado no indica otra cosa, se usará **Vite + React + JavaScript** con npm.
+- **Build:** **Vite + React + JavaScript** con npm. Proyecto creado con el template `react`.
 - **Lenguaje:** JavaScript moderno (ES modules) y JSX. No TypeScript salvo que el enunciado lo pida.
-- **Estilos:** CSS propio. No se añade Tailwind, Bootstrap, Material UI ni otra librería visual sin justificarlo y sin un ADR.
+- **Estilos:** **Tailwind CSS v4** mediante `@tailwindcss/vite` y `@import "tailwindcss"` en `src/index.css`. En la primera sesión los estilos son básicos; la guía de estilos y el acabado visual definitivo se harán en una sesión posterior. No se añade Bootstrap, Material UI ni otra librería visual sin justificarlo y sin un ADR.
 - **Rutas:** React Router solo cuando la tarea necesite más de una vista. Si se añade, se documenta la decisión.
 - **Estado:** `useState`, `useReducer` y Context. No se añade Redux, Zustand ni otra librería de estado sin necesidad justificada.
 - **Datos:** `fetch` centralizado en `src/api/`. No se hacen llamadas sueltas desde los componentes.
@@ -39,9 +39,11 @@ Klavier es la aplicación web de un e-commerce de pianos. El frontend consume la
 
 ### Estado actual
 
-El repositorio es un **esqueleto**: solo existen `README.md`, `package.json`, `.gitignore` y este `AGENTS.md`. Todavía no hay aplicación React, dependencias ni scripts de arranque. El `package.json` actual no define la app real; la primera sesión debe sustituirlo por la configuración que corresponda y actualizar este archivo y el `README.md` si la estructura cambia.
+El frontend ya es una aplicación React creada con Vite. La base incluye React Router, Tailwind CSS, un layout compartido (`Header` + `Footer`), las rutas `/`, `/login`, `/register` y una página 404, además de la Home conectada a `GET /api/products`. Login y Register son **maquetas** validadas en cliente: la autenticación real se implementará en una sesión posterior.
 
-### Estructura prevista
+La estilización es deliberadamente básica. La guía de estilos, los tokens definitivos y el acabado visual se abordarán en la siguiente sesión.
+
+### Estructura actual
 
 ```text
 frontend/
@@ -49,15 +51,17 @@ frontend/
 ├── src/
 │   ├── api/                # cliente HTTP y funciones por recurso
 │   ├── components/         # componentes reutilizables
-│   ├── context/            # auth, carrito, preferencias...
+│   ├── context/            # auth, carrito, preferencias... (pendiente)
 │   ├── hooks/              # hooks reutilizables
 │   ├── pages/              # vistas por ruta
-│   ├── styles/             # CSS global, tokens y utilidades
 │   ├── utils/              # formateadores y helpers
-│   ├── App.jsx
-│   └── main.jsx
+│   ├── App.jsx             # layout con Header, Footer y Outlet
+│   ├── index.css           # Tailwind y estilos base
+│   └── main.jsx            # BrowserRouter y rutas
+├── docs/adrs/              # decisiones arquitectónicas
 ├── .env.example
 ├── package.json
+├── vite.config.js
 ├── works/
 ├── enunciado.md
 └── README.md
@@ -382,8 +386,8 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 
 ### 7.5 UI, estilos y responsive
 
-- Define tokens CSS para color, espaciado, tipografía, radios y sombras en `src/styles/`.
-- Evita valores mágicos repetidos; usa variables.
+- Usa **Tailwind CSS** con utilidades en `className`. Centraliza en `@theme` los tokens que deban reutilizarse (fuentes, colores de marca) y evita valores mágicos repetidos.
+- Los estilos base (fondo, tipografía, foco, reduced motion) viven en `src/index.css`.
 - No uses estilos inline salvo para valores dinámicos calculados.
 - Diseño mobile-first. Comprueba 375, 768 y 1440 px como mínimo.
 - No dejes pantallas en blanco: diseña estados de carga, error y vacío.
@@ -391,6 +395,7 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 - Las imágenes de producto deben tener `alt` descriptivo, `loading="lazy"` cuando no sean críticas y un fallback si fallan.
 - No hagas hotlink de imágenes de terceros sin permiso.
 - Mantén una jerarquía visual clara: un `h1` por página y encabezados en orden.
+- Si un componente necesita clases condicionales, constrúyelas con plantillas o arrays legibles; no generes clases dinámicas que Tailwind no pueda detectar.
 
 ### 7.6 Accesibilidad
 
