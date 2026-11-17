@@ -6,7 +6,7 @@
 | **Fecha** | 2026-11-16 |
 | **Estado** | Aceptada |
 | **Ámbito** | `frontend` |
-| **Sesión** | Sesión 9 (14) — [`works/0001-react-vite-router-setup`](../../works/0001-react-vite-router-setup/) |
+| **Sesión** | Sesión 9 (14) |
 
 ## Contexto
 
@@ -14,7 +14,7 @@ El repositorio `frontend/` era un esqueleto de documentación: no había aplicac
 
 Había tres decisiones que condicionaban el resto del proyecto:
 
-1. Cómo crear el proyecto sin perder la documentación ya existente (`AGENTS.md`, `enunciado.md`, `works/`, `README.md`).
+1. Cómo crear el proyecto sin perder la documentación ya existente (`AGENTS.md` y `README.md`).
 2. Cómo gestionar los estilos y si introducir un framework CSS.
 3. Cómo organizar las rutas y las llamadas a la API.
 
@@ -22,7 +22,7 @@ Había tres decisiones que condicionaban el resto del proyecto:
 
 ### 1. Vite + React + JavaScript
 
-Se creó el proyecto con el template `react` de Vite, en una carpeta temporal dentro de `frontend/`, y se movieron a la raíz solo los archivos generados. Se conservaron intactos `AGENTS.md`, `enunciado.md`, `works/` y `README.md`.
+Se creó el proyecto con el template `react` de Vite, en una carpeta temporal dentro de `frontend/`, y se movieron a la raíz solo los archivos generados. Se conservaron intactos los archivos existentes del repositorio.
 
 Se mantiene **JavaScript con JSX**, sin TypeScript, porque el enunciado pide el template `react` y no menciona tipos.
 
@@ -84,8 +84,6 @@ No se creó `tailwind.config.js`. En esta sesión los estilos son **básicos y u
 
 ## Referencias
 
-- [`works/0001-react-vite-router-setup/SPEC.md`](../../works/0001-react-vite-router-setup/SPEC.md)
-- [`works/0001-react-vite-router-setup/README.md`](../../works/0001-react-vite-router-setup/README.md)
 - [Vite](https://vite.dev/)
 - [Tailwind CSS + Vite](https://tailwindcss.com/docs/installation/using-vite)
 - [React Router](https://reactrouter.com/)

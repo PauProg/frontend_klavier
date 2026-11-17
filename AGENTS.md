@@ -1,7 +1,7 @@
 # AGENTS.md — Instrucciones para agentes de IA
 
 > Instrucciones obligatorias para cualquier agente que trabaje dentro de `frontend/`.
-> Léelo completo, junto con el [`AGENTS.md` de la raíz](../AGENTS.md), antes de modificar código, documentación o la carpeta `works/`.
+> Léelo completo, junto con el [`AGENTS.md` de la raíz](../AGENTS.md), antes de modificar código o documentación.
 
 ## 1. Propósito
 
@@ -62,10 +62,10 @@ frontend/
 ├── .env.example
 ├── package.json
 ├── vite.config.js
-├── works/
-├── enunciado.md
 └── README.md
 ```
+
+La documentación de sesión no vive aquí: está en `../docs/projects/klavier/frontend/works/`. No crees `works/` dentro de `frontend/`.
 
 Si el enunciado propone otra estructura, se puede adaptar, pero hay que dejar constancia en el `SPEC.md` y actualizar esta sección.
 
@@ -125,17 +125,17 @@ Cada sesión empieza con un `enunciado.md` en la raíz de `frontend/`.
 
 ### Paso 1 — Crear la unidad de trabajo
 
-Crea `works/NNNN-slug/`:
+Crea `../docs/projects/klavier/frontend/works/NNNN-slug/`:
 
 - `NNNN`: siguiente número secuencial con 4 dígitos (`0001`, `0002`...).
 - `slug`: corto, en inglés, kebab-case y descriptivo.
-- Comprueba las carpetas existentes en `works/` antes de elegir el número.
+- Comprueba las carpetas existentes en `../docs/projects/klavier/frontend/works/` antes de elegir el número.
 - Nunca reutilices un número.
-- La numeración es independiente de la de `backend/works/`.
+- La numeración es independiente de la de `../docs/projects/klavier/backend/works/`.
 
-### Paso 2 — Archivar el enunciado
+### Paso 2 — Mover el enunciado
 
-Copia `enunciado.md` a `works/NNNN-slug/enunciado.md`. El de la raíz se sobrescribirá en la siguiente sesión; la copia conserva la trazabilidad.
+Mueve `enunciado.md` a `../docs/projects/klavier/frontend/works/NNNN-slug/enunciado.md` y borra el original de `frontend/`. No dejes copia suelta ni enlace al enunciado en el repositorio.
 
 ### Paso 3 — Crear `SPEC.md`
 
@@ -206,40 +206,41 @@ Si el usuario ya ha pedido implementar en el mismo mensaje, puedes continuar, pe
 
 ### Paso 8 — Cerrar y documentar
 
-- Crea `works/NNNN-slug/RESUMEN.md` en lenguaje humano.
+- Crea el `RESUMEN.md` en la unidad de `../docs/projects/klavier/frontend/works/NNNN-slug/` en lenguaje humano.
 - Crea el **PDF del entregable** en la misma carpeta, a la vez que el `RESUMEN.md`, siguiendo la sección 6.2. Es el último entregable de la sesión.
 - Rellena el `SPEC.md`: marca tareas, actualiza la tabla evaluativa con estado y evidencias, anota desviaciones y cambia el estado.
 - Actualiza el `README.md` del proyecto si cambian rutas, scripts, variables o comportamiento.
 - Crea o actualiza el ADR si hay una decisión arquitectónica o visual relevante.
-- Actualiza `works/README.md` con el estado de la sesión y el enlace al PDF.
+- Actualiza el índice `works/README.md` de `../docs/projects/klavier/frontend/works/` con el estado de la sesión y el enlace al PDF.
 - Haz commits descriptivos.
 
 ---
 
-## 5. Estructura de `works/`
+## 5. Estructura de una unidad de trabajo
 
-Cada unidad de trabajo es autocontenida:
+Las unidades viven en `../docs/projects/klavier/frontend/works/`, fuera de este repositorio. Cada una es autocontenida:
 
 ```text
 works/
 ├── README.md                     # índice de sesiones
 └── NNNN-slug/
-    ├── enunciado.md              # copia del enunciado original
+    ├── enunciado.md              # movido desde la raíz, no copiado
     ├── SPEC.md                   # especificación y tabla evaluativa
     ├── README.md                 # guía práctica de la tarea
     ├── RESUMEN.md                # informe final (se crea al terminar)
-    └── MedinaPau_MOptSesionN.pdf # entregable con placeholders de capturas
+    ├── capturas/                 # imágenes reales del PDF
+    └── MedinaPau_MOptSesionN.pdf # entregable
 ```
 
 Reglas:
 
 - `NNNN` siempre con 4 dígitos.
 - `slug` en inglés y kebab-case.
-- No se escribe código de implementación dentro de `works/`.
-- `works/README.md` se actualiza al crear y al cerrar cada sesión.
+- No se escribe código de implementación dentro de una unidad.
+- El índice `works/README.md` se actualiza al crear y al cerrar cada sesión.
 - El `RESUMEN.md` y el PDF no se crean al principio: se crean cuando la implementación termina.
-- El PDF se crea al final, junto con el `RESUMEN.md`, y sigue el formato del ejemplo `../backend/works/0001-auth-refresh-token-rotation/MedinaPau_MOptSesion8.pdf`.
-- Las capturas del PDF no se inventan: se sustituyen por placeholders que indican qué capturar, en qué archivo y en qué líneas, o qué pantalla y en qué estado.
+- El PDF se crea al final, junto con el `RESUMEN.md`, y sigue `../docs/templates/pdf.md`.
+- Las capturas se guardan en `capturas/` dentro de la unidad. Si aún no existen, el PDF usa placeholders que indican qué capturar, en qué archivo y en qué líneas, o qué pantalla y en qué estado.
 
 ---
 
@@ -260,7 +261,7 @@ Evita jerga innecesaria. Explica el “qué” y el “por qué”, no solo el �
 
 ### 6.2 PDF del entregable
 
-Al terminar la sesión, **a la vez que creas `RESUMEN.md`**, crea el PDF del entregable dentro de `works/NNNN-slug/`.
+Al terminar la sesión, **a la vez que creas `RESUMEN.md`**, crea el PDF del entregable dentro de `../docs/projects/klavier/frontend/works/NNNN-slug/`.
 
 - **Nombre:** `MedinaPau_MOptSesion<N>.pdf`, donde `<N>` es el número de sesión del enunciado. Si el enunciado impone otro nombre, usa el del enunciado y déjalo anotado en el `SPEC.md`.
 - **Formato:** replica el aspecto y la estructura del PDF de ejemplo: portada, secciones y pie de página con autor, sesión y número de página.
@@ -281,7 +282,7 @@ Al terminar la sesión, **a la vez que creas `RESUMEN.md`**, crea el PDF del ent
   - Cómo tomarla: VS Code con números de línea, navegador, DevTools o Postman.
 - **Rangos de líneas:** calcúlalos al final, cuando el código ya no vaya a cambiar. Verifícalos con `nl -ba archivo | sed -n 'a,bp'` o `grep -n`. Si el código cambia después, actualiza los placeholders y vuelve a generar el PDF.
 - **Generación:** crea primero una fuente editable (HTML o Markdown) y conviértela a PDF con la herramienta disponible. Guarda la fuente junto al PDF solo si el usuario lo pide; el entregable obligatorio es el PDF.
-- **Enlace:** añade el PDF a `RESUMEN.md` y a `works/README.md`.
+- **Enlace:** añade el PDF a `RESUMEN.md` y al índice `works/README.md`.
 - **Commit:** incluye el PDF en el commit de cierre, salvo que el usuario indique lo contrario.
 
 ### 6.3 Plantilla de placeholder de código
@@ -434,7 +435,7 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 - **Diseño:** si la tarea define una dirección visual, guárdala en `docs/design.md` o en el `SPEC.md`; no la dejes solo en el código.
 - **Diagramas de flujo:** `docs/diagrams/` si aportan claridad.
 - **`.env.example`:** añade las claves nuevas sin valores reales. Como mínimo, `VITE_API_URL=http://localhost:3000`.
-- **`works/`:** SPEC, README, RESUMEN y PDF por sesión.
+- **Unidades de trabajo:** viven en `../docs/projects/klavier/frontend/works/` con SPEC, README, RESUMEN, capturas y PDF.
 
 Actualiza este `AGENTS.md` si cambia la estructura, el stack o una convención importante.
 
@@ -471,7 +472,7 @@ Antes de decir que una tarea está terminada:
 - [ ] `RESUMEN.md` existe.
 - [ ] El PDF del entregable existe, sigue el formato del ejemplo y sus placeholders indican archivo y líneas o pantalla y estado.
 - [ ] El README y los ADR están al día.
-- [ ] `works/README.md` está actualizado y enlaza el PDF.
+- [ ] El índice `works/README.md` de `../docs/projects/klavier/frontend/works/` está actualizado y enlaza el PDF.
 - [ ] `git diff` no contiene cambios accidentales.
 
 Si algo falla, dilo. No ocultes errores ni marques tareas como completadas sin evidencia.
@@ -509,18 +510,19 @@ Si algo falla, dilo. No ocultes errores ni marques tareas como completadas sin e
 Usa como ejemplo canónico la primera unidad de trabajo del frontend:
 
 ```text
-works/0001-initial-setup/
+../docs/projects/klavier/frontend/works/0001-initial-setup/
 ├── enunciado.md
 ├── SPEC.md
 ├── README.md
 ├── RESUMEN.md                    # se crea al terminar
-└── MedinaPau_MOptSesionN.pdf     # PDF con placeholders de capturas
+├── capturas/
+└── MedinaPau_MOptSesionN.pdf
 ```
 
 Mientras no exista esa primera unidad, usa como referencia de formato y nivel de detalle:
 
 ```text
-../backend/works/0001-auth-refresh-token-rotation/
+../docs/projects/klavier/backend/works/0001-auth-refresh-token-rotation/
 ├── enunciado.md
 ├── SPEC.md
 ├── README.md
@@ -535,8 +537,8 @@ Mientras no exista esa primera unidad, usa como referencia de formato y nivel de
 - [ ] `enunciado.md` leído.
 - [ ] Código actual revisado.
 - [ ] `git status` y `git log` revisados.
-- [ ] `works/NNNN-slug/` creado.
-- [ ] `enunciado.md` archivado.
+- [ ] `../docs/projects/klavier/frontend/works/NNNN-slug/` creado.
+- [ ] `enunciado.md` movido y borrado de la raíz.
 - [ ] `SPEC.md` creado.
 - [ ] `README.md` creado.
 - [ ] Confirmación del usuario.
@@ -550,5 +552,5 @@ Mientras no exista esa primera unidad, usa como referencia de formato y nivel de
 - [ ] PDF con 7 capturas como máximo y sin «Archivos principales».
 - [ ] README/ADR/documentación actualizados.
 - [ ] `/review-docs` ejecutado y huecos de contenido reportados.
-- [ ] `works/README.md` actualizado.
+- [ ] Índice `works/README.md` de docs actualizado.
 - [ ] Commits realizados.
