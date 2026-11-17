@@ -28,8 +28,8 @@ export default function Footer() {
 
       <div className="border-t border-stone-200">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>© {currentYear} Klavier. Proyecto académico.</p>
-          <p>React + Vite + Tailwind CSS</p>
+          <p>© {currentYear} Klavier.</p>
+          <p>Pau Medina Vázquez</p>
         </div>
       </div>
     </footer>
