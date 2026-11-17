@@ -271,7 +271,6 @@ Al terminar la sesión, **a la vez que creas `RESUMEN.md`**, crea el PDF del ent
   2. “Qué he hecho”: 2–3 párrafos, unas 250–300 palabras y una página como máximo. Sin subtítulos, listas ni inventario de archivos.
   3. “Código principal”: 3–4 capturas de los componentes, hooks o servicios que sostienen la decisión de la sesión, en el orden en que se explican.
   4. “Pruebas en el navegador”: 2–3 capturas: resultado principal y, como máximo, móvil y un estado límite. Si la tarea toca integración, red, cookies o errores, una puede ser de DevTools.
-  5. “Repositorio”: URL, rama y commits de la sesión.
 - **Sin sección “Archivos principales”**: esa lista ya está en `README.md` y `RESUMEN.md`.
 - **Capturas:** no pegues capturas reales ni imágenes de ejemplo. En cada sitio donde iría una captura, inserta un **placeholder visible** con esta información:
   - Número y título de la captura.
