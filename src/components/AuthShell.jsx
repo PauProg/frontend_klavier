@@ -42,11 +42,6 @@ export default function AuthShell({ title, description, children, footer }) {
           {footer}
         </div>
 
-        <p className="mt-5 rounded-xl bg-stone-50 p-3 text-xs leading-5 text-stone-500">
-          Esta pantalla es una maqueta. La conexión real con la API se añadirá en la
-          siguiente sesión.
-        </p>
-
         <Link
           to="/"
           className="mt-5 inline-block text-xs font-medium text-stone-600 underline-offset-4 transition hover:text-stone-950 hover:underline"
