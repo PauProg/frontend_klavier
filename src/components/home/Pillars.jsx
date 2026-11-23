@@ -10,7 +10,7 @@ const pillars = [
   {
     title: 'Revisión',
     lead: 'Mecánica, afinación y mueble, comprobados antes de publicar.',
-    body: 'La ficha refleja lo que hay. Si una pieza tiene una historia que contar, se cuenta; si tiene una tara, también.',
+    body: 'Información clara sobre cada instrumento para comparar las opciones y elegir con criterio.',
   },
   {
     title: 'Entrega',
@@ -67,8 +67,8 @@ export default function Pillars() {
               Tres cosas que no se ven en una fotografía.
             </h2>
             <p className="mt-6 max-w-[36ch] text-[15px] leading-7 text-ink-soft">
-              Comprar un piano usado es una decisión de confianza. Esto es lo que hacemos
-              para que la confianza no haya que ponerla a ciegas.
+              Elegir un piano es una decisión importante. Selección, información y acompañamiento
+              para encontrar tu instrumento.
             </p>
           </div>
         </div>

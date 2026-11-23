@@ -3,8 +3,8 @@ import { gsap, useGSAP } from '../../motion/gsap.js'
 
 const manifesto =
   'Un piano no se elige con prisa. Se escucha, se mide y se prueba sentado delante. ' +
-  'Nosotros ponemos la otra mitad: la revisión técnica, la historia de cada pieza y la ' +
-  'certeza de que lo que entra en tu casa está a la altura.'
+  'Nosotros ponemos la otra mitad: una selección de instrumentos y el acompañamiento ' +
+  'para elegir el que encaja contigo.'
 
 const manifestoWords = manifesto.split(' ')
 

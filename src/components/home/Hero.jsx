@@ -50,7 +50,7 @@ export default function Hero({ productCount = 0 }) {
 
           <div className="mt-8 grid gap-8 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
             <p className="hero-rise max-w-[44ch] text-[15px] leading-7 text-ink-soft sm:text-base">
-              Verticales y de cola revisados por técnicos. Precio a la vista y acompañamiento
+              Pianos verticales y de cola. Precio a la vista y acompañamiento
               hasta que el piano suena en tu casa.
             </p>
 
