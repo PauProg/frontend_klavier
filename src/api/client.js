@@ -50,7 +50,7 @@ function waitForRefresh(promise, signal) {
   })
 }
 
-export async function apiFetch(path, options = {}) {
+export async function apiFetch(path, options = {}, { includeStatus = false } = {}) {
   const { headers, ...rest } = options
   const isAuth = authPaths.includes(path.split('?')[0])
   const requestToken = accessToken
@@ -108,10 +108,11 @@ export async function apiFetch(path, options = {}) {
   }
 
   if (response.status === 204) {
-    return null
+    return includeStatus ? { status: response.status, body: null } : null
   }
 
-  return response.json()
+  const body = await response.json()
+  return includeStatus ? { status: response.status, body } : body
 }
 
 export { API_URL }

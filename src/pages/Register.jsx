@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { register } from '../api/auth.js'
 import AuthShell from '../components/AuthShell.jsx'
 import FormField from '../components/FormField.jsx'
 
@@ -30,12 +31,19 @@ function validate(values) {
   if (!values.birthDate) {
     errors.birthDate = 'Indica tu fecha de nacimiento.'
   } else {
-    const birthDate = new Date(values.birthDate)
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(values.birthDate)
     const now = new Date()
-    const hundredYearsAgo = new Date()
-    hundredYearsAgo.setFullYear(now.getFullYear() - 100)
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const hundredYearsAgo = new Date(today)
+    hundredYearsAgo.setFullYear(today.getFullYear() - 100)
+    const [year, month, day] = match ? match.slice(1).map(Number) : [0, 0, 0]
+    const birthDate = new Date(0)
+    birthDate.setHours(0, 0, 0, 0)
+    birthDate.setFullYear(year, month - 1, day)
 
-    if (birthDate > now || birthDate < hundredYearsAgo) {
+    if (!match || birthDate.getFullYear() !== year ||
+        birthDate.getMonth() !== month - 1 || birthDate.getDate() !== day ||
+        birthDate > today || birthDate < hundredYearsAgo) {
       errors.birthDate = 'La fecha de nacimiento no es válida.'
     }
   }
@@ -68,6 +76,16 @@ export default function Register() {
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const submittingRef = useRef(false)
+  const mountedRef = useRef(false)
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -75,26 +93,44 @@ export default function Register() {
     setValues((current) => ({ ...current, [name]: value }))
     setErrors((current) => ({ ...current, [name]: undefined }))
     setNotice('')
+    setSuccess(false)
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    if (submittingRef.current) return
 
-    const nextErrors = validate(values)
+    const snapshot = { ...values }
+    const nextErrors = validate(snapshot)
     setErrors(nextErrors)
 
     if (Object.keys(nextErrors).length > 0) {
-      setNotice('')
+      setNotice('Revisa los campos indicados antes de continuar.')
+      event.currentTarget.elements.namedItem(Object.keys(nextErrors)[0])?.focus()
       return
     }
 
+    submittingRef.current = true
     setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
-      setNotice(
-        'Formulario correcto. El registro real estará disponible en la siguiente sesión.',
-      )
-    }, 600)
+    setNotice('Creando cuenta…')
+    try {
+      await register(snapshot)
+      if (!mountedRef.current) return
+      setValues(initialValues)
+      setSuccess(true)
+      setNotice('Cuenta creada. Ya puedes iniciar sesión.')
+    } catch (error) {
+      if (!mountedRef.current) return
+      setNotice([400, 401, 403, 409, 422].includes(error.status)
+        ? 'No se ha podido crear la cuenta con esos datos. Revisa el formulario e inténtalo de nuevo.'
+        : 'No se ha podido completar el registro. Inténtalo de nuevo.')
+    } finally {
+      submittingRef.current = false
+      if (mountedRef.current) {
+        setValues((current) => ({ ...current, password: '' }))
+        setSubmitting(false)
+      }
+    }
   }
 
   return (
@@ -194,21 +230,22 @@ export default function Register() {
           required
         />
 
-        {notice ? (
-          <p
-            role="status"
-            className="border-l-2 border-ink bg-paper-deep/60 px-4 py-3 text-[13px] leading-6 text-ink"
-          >
-            {notice}
-          </p>
-        ) : null}
+        <p
+          role="status"
+          className={notice ? 'border-l-2 border-ink bg-paper-deep/60 px-4 py-3 text-[13px] leading-6 text-ink' : ''}
+        >
+          {notice}
+          {success ? (
+            <> <Link to="/login" className="underline decoration-felt decoration-1 underline-offset-4">Iniciar sesión</Link></>
+          ) : null}
+        </p>
 
         <button
           type="submit"
           disabled={submitting}
           className="w-full bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt disabled:cursor-not-allowed disabled:bg-ink-mute"
         >
-          {submitting ? 'Comprobando…' : 'Crear cuenta'}
+          {submitting ? 'Creando cuenta…' : 'Crear cuenta'}
         </button>
       </form>
     </AuthShell>

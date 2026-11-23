@@ -36,7 +36,7 @@ Klavier es la aplicación web de un e-commerce de pianos. El frontend consume la
 - **Rutas:** React Router solo cuando la tarea necesite más de una vista. Si se añade, se documenta la decisión.
 - **Estado:** `useState`, `useReducer` y Context. No se añade Redux, Zustand ni otra librería de estado sin necesidad justificada.
 - **Datos:** `fetch` centralizado en `src/api/`. No se hacen llamadas sueltas desde los componentes.
-- **Tests:** si el enunciado los pide, se añadirá Vitest + React Testing Library; si no, la verificación es manual y queda documentada.
+- **Tests:** si el enunciado los pide, se añadirá Vitest + React Testing Library; para la verificación en navegador se puede usar Playwright, documentando las comprobaciones y sus resultados.
 
 ### Estado actual
 
@@ -209,6 +209,7 @@ Si el usuario ya ha pedido implementar en el mismo mensaje, puedes continuar, pe
 
 - Arranca el frontend con `npm run dev` desde `frontend/`.
 - Recorre el flujo afectado en el navegador.
+- Usa Playwright para las comprobaciones de navegador cuando corresponda; no sustituye las pruebas con lector de pantalla ni las confirmaciones humanas necesarias. No incluyas secretos, credenciales ni datos sensibles en capturas o evidencias.
 - Revisa la consola: no debe haber errores ni advertencias nuevas.
 - Revisa la pestaña Network: peticiones esperadas, códigos correctos, `credentials` cuando toque y ningún token en la URL.
 - Comprueba el responsive al menos en 375, 768 y 1440 px de ancho.

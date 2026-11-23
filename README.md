@@ -44,6 +44,23 @@ Si no existe `.env`, el cliente usa `http://localhost:3000` por defecto.
 | `npm run preview` | Sirve localmente la build de producción. |
 | `npm run lint` | Ejecuta Oxlint. |
 
+## Pruebas en navegador
+
+Para usar Playwright con Chromium, instala ambos globalmente:
+
+```bash
+npm install -g playwright
+playwright install chromium
+```
+
+Con el frontend arrancado mediante `npm run dev`, abre la aplicación en Chromium:
+
+```bash
+playwright open -b chromium http://localhost:5173/
+```
+
+Playwright complementa la verificación manual, pero no sustituye las pruebas con lector de pantalla ni las confirmaciones humanas necesarias. No incluyas secretos, credenciales ni datos sensibles en capturas o evidencias.
+
 ## Rutas
 
 | Ruta | Página | Descripción |
