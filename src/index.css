@@ -1,33 +1,128 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --color-paper: #f2f0ec;
+  --color-paper-deep: #e7e4dd;
+  --color-ink: #0e0f10;
+  --color-ink-soft: #43443f;
+  --color-ink-mute: #63645c;
+  --color-line: #d6d2ca;
+  --color-line-strong: #b9b4aa;
+  --color-felt: #c8102e;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 @layer base {
+  :root {
+    /* Estructura */
+    --header-height: 4.0625rem;
+
+    /* Foco */
+    --focus-width: 2px;
+    --focus-offset: 3px;
+    --focus-offset-inset: -4px;
+
+    /* Teclado */
+    --key-black-ratio: 0.62;
+    --key-black-height: 64%;
+    --key-min-width: 20px;
+    --key-press-depth: 4px;
+    --key-press-duration: 70ms;
+    --key-release-duration: 160ms;
+    --key-wave-depth: 14px;
+    --key-wave-depth-black: 9px;
+    --key-shadow: 0 10px 18px -10px rgb(14 15 16 / 0.6);
+
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
   }
 
   body {
-    @apply bg-stone-50 text-stone-900 antialiased;
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  ::selection {
+    @apply bg-felt text-paper;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-stone-900;
+    outline: var(--focus-width) solid var(--color-felt);
+    outline-offset: var(--focus-offset);
+  }
+
+  ::placeholder {
+    @apply text-ink-mute;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.45;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Geometría del teclado: todo sale de tokens, nada calculado en JS. */
+  .keyboard-track {
+    min-width: calc(var(--white-count) * var(--key-min-width));
+  }
+
+  .key-black {
+    left: calc(
+      var(--edge) * (100% / var(--white-count)) -
+        var(--key-black-ratio) * (100% / var(--white-count)) / 2
+    );
+    width: calc(var(--key-black-ratio) * (100% / var(--white-count)));
+    height: var(--key-black-height);
+  }
+
+  /* La superficie es lo que se hunde al pulsar; el contenedor es lo que mueve
+     el scroll. Nunca el mismo nodo, para que GSAP y CSS no se pisen. */
+  [data-key-surface] {
+    transition:
+      transform var(--key-release-duration) var(--ease-out),
+      background-color var(--key-press-duration) linear,
+      box-shadow var(--key-press-duration) linear;
+  }
+
+  /* Hacia dentro: el teclado recorta con overflow y el anillo se perdería. */
+  /* El ratón no deja anillo: al pulsar con el puntero no hay foco que señalar.
+     Solo se dibuja cuando el foco llega por teclado, que es cuando hace falta. */
+  [data-key-surface]:focus-visible {
+    outline: none;
+  }
+
+  [data-key-surface][data-focus-ring='true']:focus {
+    outline: var(--focus-width) solid var(--color-felt);
+    outline-offset: var(--focus-offset-inset);
+  }
+
+  [data-pressed='true'] {
+    transform: translateY(var(--key-press-depth));
+    box-shadow: none;
+    transition-duration: var(--key-press-duration);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
+    [data-key-surface] {
+      transition: none;
     }
 
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+    [data-pressed='true'] {
+      transform: none;
     }
   }
 }

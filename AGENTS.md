@@ -31,7 +31,8 @@ Klavier es la aplicación web de un e-commerce de pianos. El frontend consume la
 - **UI:** React con componentes funcionales y hooks.
 - **Build:** **Vite + React + JavaScript** con npm. Proyecto creado con el template `react`.
 - **Lenguaje:** JavaScript moderno (ES modules) y JSX. No TypeScript salvo que el enunciado lo pida.
-- **Estilos:** **Tailwind CSS v4** mediante `@tailwindcss/vite` y `@import "tailwindcss"` en `src/index.css`. En la primera sesión los estilos son básicos; la guía de estilos y el acabado visual definitivo se harán en una sesión posterior. No se añade Bootstrap, Material UI ni otra librería visual sin justificarlo y sin un ADR.
+- **Estilos:** **Tailwind CSS v4** mediante `@tailwindcss/vite` y `@import "tailwindcss"` en `src/index.css`. Los tokens de la dirección visual («Lacquer»: papel marfil, negro laca, rojo fieltro, radios a 0) viven en `@theme`; no añadas colores ni tipografías sueltas. No se añade Bootstrap, Material UI ni otra librería visual sin justificarlo y sin un ADR.
+- **Movimiento:** **GSAP + ScrollTrigger** mediante `gsap` y `@gsap/react`, registrados una sola vez en `src/motion/gsap.js`. Es la única familia de animación junto con transiciones CSS de microinteracción. Se prohíbe añadir `Lenis`, `Motion`, `AOS` u otra librería de scroll sin un ADR que lo justifique.
 - **Rutas:** React Router solo cuando la tarea necesite más de una vista. Si se añade, se documenta la decisión.
 - **Estado:** `useState`, `useReducer` y Context. No se añade Redux, Zustand ni otra librería de estado sin necesidad justificada.
 - **Datos:** `fetch` centralizado en `src/api/`. No se hacen llamadas sueltas desde los componentes.
@@ -41,18 +42,31 @@ Klavier es la aplicación web de un e-commerce de pianos. El frontend consume la
 
 El frontend ya es una aplicación React creada con Vite. La base incluye React Router, Tailwind CSS, un layout compartido (`Header` + `Footer`), las rutas `/`, `/login`, `/register` y una página 404, además de la Home conectada a `GET /api/products`. Login y Register son **maquetas** validadas en cliente: la autenticación real se implementará en una sesión posterior.
 
-La estilización es deliberadamente básica. La guía de estilos, los tokens definitivos y el acabado visual se abordarán en la siguiente sesión.
+La estilización dejó de ser provisional. La dirección visual vigente es «Lacquer»: papel marfil, negro laca, rojo fieltro como único acento, esquinas rectas y tipografía del sistema. Está aplicada en Home, Login, Register y 404, y documentada en el apartado 17 del `SPEC.md` del work `0001`. No la cambies por gusto: si una tarea pide otra dirección, se aprueba antes y se documenta.
+
+La Home tiene animaciones de scroll con GSAP (entrada del hero, teclado que se hunde, manifiesto pinneado por palabras, pilares, grid de productos y cierre). Todas se apagan con `prefers-reduced-motion: reduce`.
+
+El teclado del hero es además un **instrumento que suena**: 48 teclas en escritorio, 21 en tablet y 14 en móvil, con muestras de piano de VSCO 2 CE (CC0) y un motor de Web Audio en `src/audio/piano.js`. Se toca con puntero, con varios dedos y con el teclado del ordenador. No suena al scrollear ni al pasar el ratón.
+
+### Voz y contenido
+
+Klavier vende **pianos nuevos**, no de segunda mano ni reacondicionados. No escribas «usado», «segunda mano», «ocasión», «restaurado», «revisado por técnicos» ni ninguna fórmula que sugiera que la pieza tuvo dueño antes. Los textos hablan de selección, de instrumentos nuevos y de acompañamiento en la entrega.
+
+> Hay tres textos antiguos que todavía dicen lo contrario: `src/components/home/Pillars.jsx` («Comprar un piano usado…»), `src/components/home/Hero.jsx` («revisados por técnicos») y `src/components/home/Manifesto.jsx` («la historia de cada pieza»). Están pendientes de corrección y anotados en el `SPEC.md` del work `0001`.
 
 ### Estructura actual
 
 ```text
 frontend/
-├── public/                 # imágenes y archivos estáticos
+├── public/                 # muestras de audio, favicon y estáticos
 ├── src/
 │   ├── api/                # cliente HTTP y funciones por recurso
+│   ├── audio/              # motor de audio del teclado (Web Audio)
 │   ├── components/         # componentes reutilizables
+│   │   └── home/           # secciones exclusivas de la Home
 │   ├── context/            # auth, carrito, preferencias... (pendiente)
 │   ├── hooks/              # hooks reutilizables
+│   ├── motion/             # registro de GSAP y utilidades de animación
 │   ├── pages/              # vistas por ruta
 │   ├── utils/              # formateadores y helpers
 │   ├── App.jsx             # layout con Header, Footer y Outlet
@@ -424,6 +438,48 @@ Para DevTools o API, sustituye “Viewport/Estado” por la petición y la respu
 - Textos largos: cuida los saltos de línea y evita desbordes.
 - No inventes campos que la API no devuelve; si faltan datos, propón el cambio de contrato en `backend/`.
 
+### 7.9 Skills de diseño y movimiento
+
+El proyecto tiene skills instaladas a nivel global para no reinventar criterio en cada sesión.
+No inventes skills ni cites una que no exista: usa solo estas y en este orden.
+
+| Fase | Skill | Cuándo |
+|---|---|---|
+| Plataforma | `modern-web-guidance` | **Antes** de escribir HTML, CSS o JS de cliente |
+| Dirección visual | `taste-skill` | Decidir paleta, tipografía, jerarquía y layout |
+| Apoyo visual | `frontend-design` | Solo si `taste-skill` no basta para el brief |
+| Nombrar movimiento | `animation-vocabulary` | Traducir "que rebote al abrir" al término exacto |
+| Implementar movimiento | `animate`, `motion-lab` o `gsap-*` | Una sola familia por tarea |
+| Auditar movimiento | `review-animations` | Antes de cerrar, sobre lo ya implementado |
+| Auditar interfaz | `impeccable`, `web-design-guidelines` | Al final, sobre la pantalla terminada |
+
+Reglas:
+
+- **Precedencia:** si dos skills se contradicen, manda este `AGENTS.md`; después `taste-skill` en
+  lo visual, `modern-web-guidance` en lo técnico e `impeccable` en la auditoría.
+- **`modern-web-guidance` es obligatoria** antes de dar una UI por buena: busca la guía, léela y
+  aplica sus *fallbacks*. Adapta el ejemplo a React; no pegues HTML vanilla dentro de JSX.
+- **Sin bloque de divulgación:** no añadas la sección `### Modern Web Guidance` al final de las
+  respuestas. En este proyecto el chat no es un entregable y ese bloque es ruido. Consulta las
+  guías igual, pero sin citarlas en un bloque aparte; si hace falta trazabilidad, se anota en el
+  `SPEC.md` o en el `RESUMEN.md`.
+- **Una sola dirección visual.** `taste-skill` decide. No pidas una segunda opinión a
+  `frontend-design` sobre algo ya decidido; úsala solo para desbloquear.
+- **Una familia de animación por tarea.** Microinteracciones: CSS o `animate`. Coreografía,
+  timelines y scroll: `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger`. Ideas y parámetros:
+  `motion-lab`. No mezcles GSAP y animaciones CSS sobre el mismo elemento.
+- **CSS nativo primero.** Si `modern-web-guidance` lo resuelve con `@starting-style`,
+  `transition` o view transitions, no metas GSAP.
+- **Soporte de navegador:** se asume **Baseline widely available** sin fallback. Si una feature no
+  lo es, se admite un fallback propio de **≤ 20 líneas y sin dependencias**; si exige más, se
+  descarta la feature o se justifica en el `SPEC.md`.
+- **`animation-vocabulary` no construye nada**: solo da la palabra exacta para pedir el efecto.
+- **Coste de contexto:** no cargues tres skills de diseño para la misma decisión. Si una no aplica,
+  dilo y sigue con este documento.
+
+Las skills viven en `~/.config/opencode/skills/` y `~/.agents/skills/`. No están versionadas en
+este repositorio: no las copies dentro de `frontend/`.
+
 ---
 
 ## 8. Documentación
@@ -544,6 +600,7 @@ Mientras no exista esa primera unidad, usa como referencia de formato y nivel de
 - [ ] Implementación terminada.
 - [ ] Verificación en navegador, consola y Network.
 - [ ] Responsive y accesibilidad comprobados.
+- [ ] `modern-web-guidance` consultada para el HTML/CSS/JS nuevo y sus fallbacks aplicados.
 - [ ] `npm run build` correcto (si existe).
 - [ ] `SPEC.md` rellenado.
 - [ ] `RESUMEN.md` creado.

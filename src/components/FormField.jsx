@@ -15,9 +15,13 @@ export default function FormField({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-stone-800">
+      <label htmlFor={id} className="block text-[13px] font-medium text-ink">
         {label}
-        {required ? <span className="text-red-600"> *</span> : null}
+        {required ? (
+          <span aria-hidden="true" className="ml-1 text-ink-mute">
+            *
+          </span>
+        ) : null}
       </label>
 
       <input
@@ -31,21 +35,27 @@ export default function FormField({
         aria-invalid={error ? 'true' : undefined}
         aria-describedby={describedBy || undefined}
         className={[
-          'mt-2 w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-stone-900 shadow-sm transition placeholder:text-stone-400',
+          'mt-2 h-11 w-full border-0 border-b bg-transparent px-0 text-[15px] text-ink transition-colors duration-200',
           error
-            ? 'border-red-400 focus:border-red-500'
-            : 'border-stone-300 focus:border-stone-500',
+            ? 'border-felt'
+            : 'border-line-strong hover:border-ink-mute focus:border-ink',
         ].join(' ')}
       />
 
       {hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-xs text-stone-500">
+        <p id={`${id}-hint`} className="mt-1.5 font-mono text-[10px] text-ink-mute">
           {hint}
         </p>
       ) : null}
 
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-red-700">
+        <p
+          id={`${id}-error`}
+          className="mt-2 flex items-baseline gap-2 text-[12px] leading-5 text-felt"
+        >
+          <span aria-hidden="true" className="font-mono">
+            —
+          </span>
           {error}
         </p>
       ) : null}

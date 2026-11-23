@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthShell from '../components/AuthShell.jsx'
 import FormField from '../components/FormField.jsx'
+import { AuthContext } from '../context/AuthContext.jsx'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -26,6 +27,17 @@ export default function Login() {
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const { login, status } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const pending = useRef(false)
+  const mounted = useRef(false)
+
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+    }
+  }, [])
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -35,24 +47,43 @@ export default function Login() {
     setNotice('')
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    if (pending.current || status === 'loading') return
 
     const nextErrors = validate(values)
     setErrors(nextErrors)
 
     if (Object.keys(nextErrors).length > 0) {
-      setNotice('')
+      setNotice('Revisa los campos indicados e inténtalo de nuevo.')
+      event.currentTarget.elements[nextErrors.email ? 'email' : 'password']?.focus()
       return
     }
 
+    pending.current = true
     setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
-      setNotice(
-        'Formulario correcto. El inicio de sesión real estará disponible en la siguiente sesión.',
-      )
-    }, 600)
+    setNotice('')
+    const credentials = { email: values.email.trim(), password: values.password }
+    try {
+      await login(credentials, () => mounted.current)
+      if (mounted.current) navigate('/', { replace: true })
+    } catch (error) {
+      if (mounted.current) {
+        if (error.status === 401 || error.status === 403) {
+          setNotice('No se ha podido iniciar sesión con esos datos.')
+        } else if ([400, 409, 422].includes(error.status)) {
+          setNotice('Revisa los datos e inténtalo de nuevo.')
+        } else {
+          setNotice('No se ha podido iniciar sesión. Inténtalo de nuevo.')
+        }
+      }
+    } finally {
+      pending.current = false
+      if (mounted.current) {
+        setValues((current) => ({ ...current, password: '' }))
+        setSubmitting(false)
+      }
+    }
   }
 
   return (
@@ -64,7 +95,7 @@ export default function Login() {
           ¿Todavía no tienes cuenta?{' '}
           <Link
             to="/register"
-            className="font-medium text-stone-950 underline underline-offset-4"
+            className="text-ink underline decoration-felt decoration-1 underline-offset-4 transition-colors duration-200 hover:text-felt"
           >
             Crear una cuenta
           </Link>
@@ -97,7 +128,7 @@ export default function Login() {
         {notice ? (
           <p
             role="status"
-            className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm leading-6 text-emerald-800"
+            className="border-l-2 border-ink bg-paper-deep/60 px-4 py-3 text-[13px] leading-6 text-ink"
           >
             {notice}
           </p>
@@ -105,8 +136,8 @@ export default function Login() {
 
         <button
           type="submit"
-          disabled={submitting}
-          className="w-full rounded-full bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={submitting || status === 'loading'}
+          className="w-full bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt disabled:cursor-not-allowed disabled:bg-ink-mute"
         >
           {submitting ? 'Comprobando…' : 'Entrar'}
         </button>

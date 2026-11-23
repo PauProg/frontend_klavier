@@ -60,15 +60,20 @@ Las rutas se declaran en `src/main.jsx` con `BrowserRouter` y `Routes`. `App.jsx
 ```text
 frontend/
 ├── docs/adrs/              # decisiones arquitectónicas
-├── public/                 # favicon y estáticos
+├── public/
+│   ├── audio/piano/        # muestras del teclado (VSCO 2 CE, CC0)
+│   └── favicon.svg
 ├── src/
 │   ├── api/                # cliente HTTP y funciones por recurso
+│   ├── audio/              # motor de audio del teclado (Web Audio)
 │   ├── components/         # Header, Footer, tarjetas, campos de formulario
-│   ├── hooks/              # useProducts
+│   │   └── home/           # secciones de la Home (hero, manifiesto, pilares...)
+│   ├── hooks/              # useProducts, usePiano
+│   ├── motion/             # registro de GSAP y ScrollTrigger
 │   ├── pages/              # Home, Login, Register, NotFound
-│   ├── utils/              # formateadores (precio, año)
+│   ├── utils/              # formateadores (precio, año) y modelo de notas
 │   ├── App.jsx             # layout compartido
-│   ├── index.css           # Tailwind y estilos base
+│   ├── index.css           # Tailwind, tokens y estilos base
 │   └── main.jsx            # BrowserRouter y rutas
 ├── .env.example
 ├── vite.config.js
@@ -101,9 +106,25 @@ La Home consume `GET /api/products`. La respuesta esperada es:
 
 ## Estado actual
 
-La base del frontend está terminada y la Home funciona con la API real. **Login y Register son maquetas**: validan los campos en cliente, pero no autentican ni llaman a la API. La autenticación, las rutas protegidas y la guía de estilos definitiva quedan para las siguientes sesiones.
+La base del frontend está terminada y la Home funciona con la API real. **Login y Register son maquetas**: validan los campos en cliente, pero no autentican ni llaman a la API.
 
-Consulta el [ADR 001](./docs/adrs/0001-frontend-foundation.md) para el detalle de las decisiones.
+La interfaz sigue la dirección visual **«Lacquer»**: papel marfil, negro laca, rojo fieltro como único acento, esquinas rectas y tipografía del sistema. La Home incorpora animaciones de scroll con GSAP (entrada del hero, teclado que se hunde, manifiesto pinneado por palabras, pilares, grid de productos y cierre); todas se desactivan con `prefers-reduced-motion: reduce`.
+
+La autenticación real y las rutas protegidas quedan para las siguientes sesiones.
+
+El teclado del hero es un instrumento real: se toca con el ratón, el dedo o el teclado del
+ordenador, y suena con dieciséis muestras de piano cargadas de forma perezosa. Ver
+[`public/audio/piano/README.md`](./public/audio/piano/README.md) para el detalle del recorte y la
+licencia.
+
+Consulta el [ADR 001](./docs/adrs/0001-frontend-foundation.md) para la base técnica y el [ADR 002](./docs/adrs/0002-visual-direction-and-motion.md) para la dirección visual y la decisión de usar GSAP.
+
+## Créditos
+
+Las muestras de piano son de **VSCO 2 Community Edition**, de Versilian Studios LLC (grabadas por
+Sam Gossner y Simon Dalzell), distribuidas bajo **CC0 1.0**. Se descargaron desde el repositorio
+público de [tonejs-instruments](https://github.com/nbrosowsky/tonejs-instruments) y se recortaron y
+recomprimieron para esta web.
 
 ## Autor
 

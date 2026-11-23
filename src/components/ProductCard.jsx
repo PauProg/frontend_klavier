@@ -1,23 +1,15 @@
 import { useState } from 'react'
+import Keyboard from './Keyboard.jsx'
 import { formatPrice, formatYear } from '../utils/format.js'
 
 function ProductImageFallback() {
   return (
     <div
-      className="flex h-full w-full items-center justify-center bg-stone-900 p-6"
+      className="flex h-full w-full items-center justify-center bg-paper-deep"
       aria-hidden="true"
     >
-      <div className="flex h-2/3 w-3/4 items-end justify-center gap-1 rounded-lg bg-stone-50 p-2">
-        {Array.from({ length: 7 }).map((_, index) => (
-          <span
-            key={index}
-            className="relative h-full flex-1 rounded-sm border border-stone-300 bg-white"
-          >
-            {[1, 2, 4, 5].includes(index) ? (
-              <span className="mx-auto block h-1/2 w-full bg-stone-900" />
-            ) : null}
-          </span>
-        ))}
+      <div className="h-16 w-[58%] border border-line-strong">
+        <Keyboard static octaves={2} className="h-full" />
       </div>
     </div>
   )
@@ -33,62 +25,58 @@ export default function ProductCard({ product }) {
   const stock = Number(product.currentStock)
   const available = Number.isFinite(stock) && stock > 0
 
-  const availability = !available
-    ? 'Sin stock'
-    : stock <= 2
-      ? 'Últimas unidades'
-      : 'Disponible'
+  const availability = !available ? 'Sin stock' : stock <= 2 ? 'Últimas' : 'Disponible'
 
-  const availabilityClass = !available
-    ? 'bg-stone-200 text-stone-600'
+  const availabilityTone = !available
+    ? 'bg-line-strong'
     : stock <= 2
-      ? 'bg-amber-100 text-amber-900'
-      : 'bg-emerald-100 text-emerald-800'
+      ? 'bg-felt'
+      : 'bg-ink'
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+    <article className="group flex h-full flex-col">
+      <div className="relative aspect-[4/3] overflow-hidden bg-paper-deep">
         {image && !imageFailed ? (
           <img
             src={image}
-            alt={`${brand} ${model}`.trim()}
+            alt={`${product.name || 'Piano'} ${brand} ${model}`.trim()}
             loading="lazy"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            className="h-full w-full object-cover grayscale transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
             onError={() => setImageFailed(true)}
           />
         ) : (
           <ProductImageFallback />
         )}
-
-        <span
-          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-medium ${availabilityClass}`}
-        >
-          {availability}
-        </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-500">
+      <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-mute">
+        <p>
           {brand}
           {model ? ` · ${model}` : ''}
         </p>
+        <p className="flex shrink-0 items-center gap-2 text-ink">
+          <span aria-hidden="true" className={`block h-px w-3 ${availabilityTone}`} />
+          {availability}
+        </p>
+      </div>
 
-        <h3 className="mt-2 font-serif text-xl leading-snug text-stone-950">
-          {product.name || 'Piano'}
-        </h3>
+      <h3 className="mt-2 text-xl font-medium leading-snug tracking-[-0.015em]">
+        {product.name || 'Piano'}
+      </h3>
 
-        {product.description ? (
-          <p className="mt-2 line-clamp-2 text-sm leading-6 text-stone-600">
-            {product.description}
-          </p>
-        ) : null}
+      {product.description ? (
+        <p className="mt-2 line-clamp-2 text-[14px] leading-6 text-ink-soft">
+          {product.description}
+        </p>
+      ) : null}
 
-        <div className="mt-auto flex items-end justify-between gap-4 pt-5">
-          <p className="text-lg font-semibold text-stone-950">
-            {formatPrice(product.price)}
-          </p>
-          <p className="text-xs text-stone-500">Año {year}</p>
-        </div>
+      <div className="mt-auto flex items-baseline justify-between gap-4 pt-4">
+        <p className="font-mono text-[15px] tabular-nums text-ink">
+          {formatPrice(product.price)}
+        </p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-mute">
+          Año {year}
+        </p>
       </div>
     </article>
   )

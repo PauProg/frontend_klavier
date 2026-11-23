@@ -106,7 +106,7 @@ export default function Register() {
           ¿Ya tienes cuenta?{' '}
           <Link
             to="/login"
-            className="font-medium text-stone-950 underline underline-offset-4"
+            className="text-ink underline decoration-felt decoration-1 underline-offset-4 transition-colors duration-200 hover:text-felt"
           >
             Iniciar sesión
           </Link>
@@ -197,7 +197,7 @@ export default function Register() {
         {notice ? (
           <p
             role="status"
-            className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm leading-6 text-emerald-800"
+            className="border-l-2 border-ink bg-paper-deep/60 px-4 py-3 text-[13px] leading-6 text-ink"
           >
             {notice}
           </p>
@@ -206,7 +206,7 @@ export default function Register() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt disabled:cursor-not-allowed disabled:bg-ink-mute"
         >
           {submitting ? 'Comprobando…' : 'Crear cuenta'}
         </button>
