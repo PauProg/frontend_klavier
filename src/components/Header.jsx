@@ -62,17 +62,19 @@ export default function Header() {
             Inicio
           </NavLink>
           {status === 'anonymous' ? (
-            <NavLink to="/login" className={navLinkClass}>
-              Iniciar sesión
-            </NavLink>
+            <>
+              <NavLink to="/login" className={navLinkClass}>
+                Iniciar sesión
+              </NavLink>
+              <NavLink to="/register" className={registerLinkClass}>
+                Crear cuenta
+              </NavLink>
+            </>
           ) : (
             <span className="px-2 py-2 text-[11px] text-ink-soft sm:px-3 sm:text-[13px]">
               {status === 'loading' ? 'Comprobando sesión…' : 'Sesión iniciada'}
             </span>
           )}
-          <NavLink to="/register" className={registerLinkClass}>
-            Crear cuenta
-          </NavLink>
         </nav>
       </div>
     </header>

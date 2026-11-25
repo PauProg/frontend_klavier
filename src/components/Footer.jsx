@@ -1,8 +1,12 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext.jsx'
 
 const currentYear = new Date().getFullYear()
 
 export default function Footer() {
+  const { status } = useContext(AuthContext)
+
   return (
     <footer className="border-t border-line bg-paper">
       <div className="mx-auto grid w-full max-w-[1440px] gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_1fr] md:items-start lg:px-12">
@@ -23,18 +27,22 @@ export default function Footer() {
           >
             Inicio
           </Link>
-          <Link
-            to="/login"
-            className="text-ink-soft transition-colors duration-200 hover:text-ink"
-          >
-            Iniciar sesión
-          </Link>
-          <Link
-            to="/register"
-            className="text-ink-soft transition-colors duration-200 hover:text-ink"
-          >
-            Crear cuenta
-          </Link>
+          {status === 'anonymous' && (
+            <>
+              <Link
+                to="/login"
+                className="text-ink-soft transition-colors duration-200 hover:text-ink"
+              >
+                Iniciar sesión
+              </Link>
+              <Link
+                to="/register"
+                className="text-ink-soft transition-colors duration-200 hover:text-ink"
+              >
+                Crear cuenta
+              </Link>
+            </>
+          )}
         </nav>
       </div>
 

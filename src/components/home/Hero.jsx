@@ -38,11 +38,11 @@ export default function Hero({ productCount = 0 }) {
           </p>
 
           <h1 className="mt-7 text-[clamp(2.9rem,8.4vw,7.4rem)] font-medium leading-[0.92] tracking-[-0.035em]">
-            <span className="hero-line block overflow-hidden pb-[0.06em]">
-              <span className="block">Pianos elegidos</span>
+            <span className="hero-line block overflow-hidden -mb-[0.14em]">
+              <span className="block pb-[0.2em]">Pianos elegidos</span>
             </span>
-            <span className="hero-line block overflow-hidden pb-[0.06em]">
-              <span className="block pl-[9vw] lg:pl-[18vw]">uno a uno.</span>
+            <span className="hero-line block overflow-hidden -mb-[0.14em]">
+              <span className="block pb-[0.2em] pl-[9vw] lg:pl-[18vw]">uno a uno.</span>
             </span>
           </h1>
 

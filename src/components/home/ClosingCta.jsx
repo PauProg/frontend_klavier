@@ -1,9 +1,11 @@
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext.jsx'
 import { gsap, useGSAP } from '../../motion/gsap.js'
 
 export default function ClosingCta() {
   const ref = useRef(null)
+  const { status } = useContext(AuthContext)
 
   useGSAP(
     () => {
@@ -53,17 +55,35 @@ export default function ClosingCta() {
         </h2>
 
         <div data-closing-copy className="lg:col-span-4 lg:pb-2">
-          <p className="max-w-[36ch] text-[15px] leading-7 text-ink-soft">
-            Crea tu cuenta para guardar la selección que te interesa y recibir aviso cuando
-            entre una pieza nueva en el catálogo.
-          </p>
-          <Link
-            to="/register"
-            className="mt-7 inline-flex items-center gap-3 bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt active:translate-y-px"
-          >
-            Crear cuenta
-            <span aria-hidden="true">→</span>
-          </Link>
+          {status === 'anonymous' && (
+            <>
+              <p className="max-w-[36ch] text-[15px] leading-7 text-ink-soft">
+                Crea tu cuenta para guardar la selección que te interesa y recibir aviso cuando
+                entre una pieza nueva en el catálogo.
+              </p>
+              <Link
+                to="/register"
+                className="mt-7 inline-flex items-center gap-3 bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt active:translate-y-px"
+              >
+                Crear cuenta
+                <span aria-hidden="true">→</span>
+              </Link>
+            </>
+          )}
+          {status === 'authenticated' && (
+            <>
+              <p className="max-w-[36ch] text-[15px] leading-7 text-ink-soft">
+                Explora nuestra selección de pianos y compara los instrumentos disponibles para encontrar el que encaja contigo.
+              </p>
+              <a
+                href="#productos"
+                className="mt-7 inline-flex items-center gap-3 bg-ink px-6 py-4 text-sm font-medium text-paper transition-colors duration-200 hover:bg-felt active:translate-y-px"
+              >
+                Ver el catálogo
+                <span aria-hidden="true">→</span>
+              </a>
+            </>
+          )}
         </div>
       </div>
     </section>
